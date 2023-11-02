@@ -1,23 +1,86 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useRef, useContext } from "react";
+import Header from "./components/Header";
+import TodoList from "./components/TodoList";
+import Footer from "./components/Footer";
+import Theme from "./components/Theme";
+import { ThemeContext } from "./components/ThemeProvider";
+import { v4 as uuidv4 } from "uuid";
+import "./App.css";
+
+export const options = {
+  All: "All",
+  Active: "Active",
+  Completed: "Completed",
+};
 
 function App() {
+  const [todoList, setTodoList] = useState([
+    { id: uuidv4(), content: "Học React", isCompleted: false },
+    { id: uuidv4(), content: "Học Node", isCompleted: false },
+  ]);
+  const [myOption, setMyOption] = useState(options.All);
+  const headerRef = useRef();
+  const todoListRef = useRef();
+
+  const addTodo = (todo) => setTodoList([todo, ...todoList]);
+
+  const deleteTodoItem = (id) =>
+    setTodoList(todoList.filter((todo) => todo.id !== id));
+
+  const editTodoItem = (id, content) => {
+    const newList = todoList.map((todo) =>
+      todo.id === id ? { ...todo, content } : todo
+    );
+    setTodoList(newList);
+  };
+
+  const changeIsCompleted = (id) => {
+    const newList = todoList.map((todo) =>
+      todo.id === id ? { ...todo, isCompleted: !todo.isCompleted } : todo
+    );
+    setTodoList(newList);
+  };
+
+  const deleteAllTodoItem = () =>
+    setTodoList(todoList.filter((todo) => !todo.isCompleted));
+
+  const changeOption = (option) => setMyOption(option);
+  
+  const requestUpdate = (id) => {
+    const todo = todoList.find((todo) => todo.id === id);
+    headerRef.current.changeUpdate(id, todo.content);
+  }
+
+  const themeContext = useContext(ThemeContext);
+  const theme = themeContext.theme;
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className={`container ${theme}`}>
+      <Theme />
+      <h1>todos</h1>
+      <div className="main">
+        <Header
+          addTodo={addTodo}
+          ref={headerRef}
+          requestUpdate={requestUpdate}
+          editTodoItem={editTodoItem}
+        />
+        <TodoList
+          todoList={todoList}
+          myOption={myOption}
+          deleteTodoItem={deleteTodoItem}
+          editTodoItem={editTodoItem}
+          changeIsCompleted={changeIsCompleted}
+          requestUpdate={requestUpdate}
+          ref={todoListRef}
+        />
+        <Footer
+          todoList={todoList}
+          myOption={myOption}
+          changeOption={changeOption}
+          deleteAllTodoItem={deleteAllTodoItem}
+        />
+      </div>
     </div>
   );
 }

@@ -1,0 +1,16 @@
+ul {
+    list-style: none;
+}
+.loading {
+    text-align: center;
+    font-size: 14px;
+}
+.dark .loading {
+    color: #fff;
+}
+.light {
+    background-color: #fff;
+}
+.dark {
+    background-color: #3b3a3b;
+}

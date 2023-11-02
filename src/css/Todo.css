@@ -1,0 +1,85 @@
+.checkbox {
+    display: none;
+}
+.todo_check {
+    position: absolute;
+}
+.checkbox_item {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+    position: absolute;
+    top: 0px;
+    left: -44px;
+    cursor: pointer;
+}
+.checkbox_item .checkbox:checked ~ i {
+    display: block;
+}
+.content {
+    text-decoration: line-through;
+    color: #ccc;
+}
+
+.checkbox_item i {
+    display: none;
+    position: absolute;
+    color: #4daf54;
+    font-size: 16px;
+    top: 6px;
+    left: 6px;
+}
+.todo-item {
+    position: relative;
+    border-bottom: 1px solid #f5f0f0;
+}
+.todo {
+    font-size: 24px;
+    font-weight: 400;
+    color: #5a5858;
+    line-height: 1.2;
+    padding: 15px 15px 15px 60px;
+}
+.div_content {
+    display: flex;
+    justify-content: space-between;
+}
+.todo-item input {
+    font-weight: 400;
+    color: #5a5858;
+    line-height: 1.2;
+    
+}
+.feature i {
+    display: inline-block;
+    cursor: pointer;
+    font-size: 18px;
+    padding: 6px 8px;
+}
+
+.todo_input {
+    padding-left: 44px;
+}
+.input {
+    padding: 15px;
+    border: 1px solid #ccc;
+}
+.light .input {
+    box-shadow: inset 0 0 4px 2px rgba(0, 0, 0, 0.1);
+}
+.dark .input {
+    background: #5a5858;
+    color: #fff;
+    box-shadow: inset 0 0 4px 2px rgba(0, 0, 0, 0.1);
+}
+.updateTodo {
+    border: 2px solid rgb(242, 24, 24);
+}
+.light {
+    color: #5a5858;
+}
+.dark {
+    color: #4daf54;
+}

@@ -1,0 +1,18 @@
+.header {
+    padding: 16px 16px 16px 60px;
+    border-bottom: 1px solid #aaa;
+}
+input {
+    font-size: 24px;
+    border: none;
+    outline: none;
+    line-height: 1.4em;
+    width: 100%;
+}
+.header.dark input {
+    color: #fff;
+    background-color: #3b3a3b;
+}
+.header.dark input::placeholder {
+    color: #d2d0d0;
+}
