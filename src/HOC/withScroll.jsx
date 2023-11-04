@@ -33,7 +33,6 @@ export const withScroll = (WrappedComponent) => {
       };
 
       ref.current.addEventListener('scroll', handleScroll);
-
       return () => {
         ref.current.removeEventListener('scroll', handleScroll);
       };
@@ -42,3 +41,4 @@ export const withScroll = (WrappedComponent) => {
     return <WrappedComponent ref={ref} numberTodo={numberTodo} loadingState={loadingState} {...props} />;
   });
 };
+

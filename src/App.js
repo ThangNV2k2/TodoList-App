@@ -22,16 +22,14 @@ function App() {
   const headerRef = useRef();
   const todoListRef = useRef();
 
-  const addTodo = (todo) => setTodoList([todo, ...todoList]);
+  const addTodo = (todo) => setTodoList((prev) => [todo, ...prev]);
 
-  const deleteTodoItem = (id) =>
-    setTodoList(todoList.filter((todo) => todo.id !== id));
+  const deleteTodoItem = (id) => setTodoList(todoList.filter((todo) => todo.id !== id));
 
   const editTodoItem = (id, content) => {
-    const newList = todoList.map((todo) =>
-      todo.id === id ? { ...todo, content } : todo
-    );
-    setTodoList(newList);
+    const todo = todoList.find((todo) => todo.id === id);
+    todo.content = content;
+    setTodoList([...todoList]);
   };
 
   const changeIsCompleted = (id) => {
@@ -41,15 +39,12 @@ function App() {
     setTodoList(newList);
   };
 
-  const deleteAllTodoItem = () =>
-    setTodoList(todoList.filter((todo) => !todo.isCompleted));
+  const deleteAllTodoItem = () => setTodoList(todoList.filter((todo) => !todo.isCompleted));
 
   const changeOption = (option) => setMyOption(option);
-  
-  const requestUpdate = (id) => {
-    const todo = todoList.find((todo) => todo.id === id);
-    headerRef.current.changeUpdate(id, todo.content);
-  }
+
+  const requestUpdate = (id) =>
+    headerRef.current.changeUpdate(id, todoList.find(todo => todo.id === id).content);
 
   const themeContext = useContext(ThemeContext);
   const theme = themeContext.theme;

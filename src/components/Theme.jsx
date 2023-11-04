@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { ThemeContext } from "./ThemeProvider";
 import "../css/Theme.css";
 
-function Theme() {
+export default function Theme() {
   const { theme, toggleTheme } = useContext(ThemeContext);
 
   return (
@@ -18,5 +18,3 @@ function Theme() {
     </div>
   );
 }
-
-export default Theme;

@@ -1,12 +1,8 @@
 import React, { useState, useRef, useContext, useEffect } from "react";
 import { ThemeContext } from "./ThemeProvider";
 import "../css/Todo.css";
-
+import propsTypes from "prop-types";
 function Todo(props) {
-  const [isEditing, setIsEditing] = useState(false);
-  const [value, setValue] = useState(props.todo.content);
-  const inputRef = useRef();
-  const theme = useContext(ThemeContext);
   const {
     todo,
     changeIsCompleted,
@@ -14,6 +10,10 @@ function Todo(props) {
     deleteTodoItem,
     editTodoItem,
   } = props;
+  const [isEditing, setIsEditing] = useState(false);
+  const [value, setValue] = useState(todo.content);
+  const inputRef = useRef();
+  const theme = useContext(ThemeContext);
 
   const handleDoubleClick = () => setIsEditing(true);
   useEffect(() => {
@@ -79,5 +79,11 @@ function Todo(props) {
     </li>
   );
 }
-
+Todo.propTypes = {
+  Todo: propsTypes.object,
+  changeIsCompleted: propsTypes.func,
+  requestUpdate: propsTypes.func,
+  deleteTodoItem: propsTypes.func,
+  editTodoItem: propsTypes.func,
+};
 export default Todo;

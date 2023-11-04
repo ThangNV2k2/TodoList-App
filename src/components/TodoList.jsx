@@ -4,6 +4,7 @@ import { options } from "../App";
 import { ThemeContext } from "./ThemeProvider";
 import "../css/TodoList.css";
 import { withScroll } from "../HOC/withScroll";
+import propsTypes from "prop-types";
 
 const TodoList = React.forwardRef((props, ref) => {
   const {
@@ -58,4 +59,14 @@ const TodoList = React.forwardRef((props, ref) => {
   );
 });
 
+TodoList.propTypes = {
+  todoList: propsTypes.array,
+  myOption: propsTypes.string,
+  editTodoItem: propsTypes.func,
+  changeIsCompleted: propsTypes.func,
+  deleteTodoItem: propsTypes.func,
+  requestUpdate: propsTypes.func,
+  numberTodo: propsTypes.number,
+  loadingState: propsTypes.bool,
+}
 export default withScroll(TodoList);
