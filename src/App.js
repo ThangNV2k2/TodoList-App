@@ -5,6 +5,7 @@ import Footer from "./components/Footer";
 import Theme from "./components/Theme";
 import { ThemeContext } from "./components/ThemeProvider";
 import { v4 as uuidv4 } from "uuid";
+import { List } from "immutable";
 import "./App.css";
 
 export const options = {
@@ -14,22 +15,23 @@ export const options = {
 };
 
 function App() {
-  const [todoList, setTodoList] = useState([
+  const [todoList, setTodoList] = useState(List([
     { id: uuidv4(), content: "Học React", isCompleted: false },
     { id: uuidv4(), content: "Học Node", isCompleted: false },
-  ]);
+  ]));
   const [myOption, setMyOption] = useState(options.All);
   const headerRef = useRef();
-  const todoListRef = useRef();
-
-  const addTodo = (todo) => setTodoList((prev) => [todo, ...prev]);
+  const numberTodoInit = useRef(4);
+  const addTodo = (todo) => setTodoList((prev) => prev.unshift(todo));
 
   const deleteTodoItem = (id) => setTodoList(todoList.filter((todo) => todo.id !== id));
 
   const editTodoItem = (id, content) => {
-    const todo = todoList.find((todo) => todo.id === id);
-    todo.content = content;
-    setTodoList([...todoList]);
+    const todoIndex = todoList.findIndex((todo) => todo.id === id);
+    if (todoIndex !== -1) {
+      const todoUpdate = { ...todoList.get(todoIndex), content };
+      setTodoList(todoList.set(todoIndex, todoUpdate));
+    }
   };
 
   const changeIsCompleted = (id) => {
@@ -43,8 +45,8 @@ function App() {
 
   const changeOption = (option) => setMyOption(option);
 
-  const requestUpdate = (id) =>
-    headerRef.current.changeUpdate(id, todoList.find(todo => todo.id === id).content);
+  const requestUpdate = (id, content) =>
+    headerRef.current.changeUpdate(id, content);
 
   const themeContext = useContext(ThemeContext);
   const theme = themeContext.theme;
@@ -67,7 +69,8 @@ function App() {
           editTodoItem={editTodoItem}
           changeIsCompleted={changeIsCompleted}
           requestUpdate={requestUpdate}
-          ref={todoListRef}
+          numberTodoInit={numberTodoInit.current}
+          endScrollPosition={10}
         />
         <Footer
           todoList={todoList}

@@ -66,7 +66,7 @@ function Todo(props) {
             <div className="feature">
               <i
                 className="fa-solid fa-pencil"
-                onClick={() => requestUpdate(todo.id)}
+                onClick={() => requestUpdate(todo.id, todo.content)}
               ></i>
               <i
                 className="fa-solid fa-trash"

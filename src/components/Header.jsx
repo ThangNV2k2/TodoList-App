@@ -10,8 +10,8 @@ import { ThemeContext } from "./ThemeProvider";
 
 const Header = React.forwardRef((props, ref) => {
   const inputRef = useRef();
+  const idUpdate = useRef(null);
   const [value, setValue] = useState("");
-  const [idUpdate, setIdUpdate] = useState(null);
   const {addTodo, editTodoItem} = props;
   const eventSubmit = (e) => {
     if (e.code === "Enter") {
@@ -28,7 +28,7 @@ const Header = React.forwardRef((props, ref) => {
   };
   useImperativeHandle(ref, () => ({
     changeUpdate(id, content) {
-      setIdUpdate(id);
+      idUpdate.current = id;
       setValue(content);
       inputRef.current.focus();
     },
@@ -36,9 +36,10 @@ const Header = React.forwardRef((props, ref) => {
   const eventUpdate = (e) => {
     if (e.code === "Enter") {
       if (value.trim() !== "") {
-        editTodoItem(idUpdate, value);
+        debugger
+        editTodoItem(idUpdate.current, value);
         setValue("");
-        setIdUpdate(null);
+        idUpdate.current = null;
       }
     }
   };
@@ -49,10 +50,10 @@ const Header = React.forwardRef((props, ref) => {
     <div className={`header ${theme.theme}`}>
       <input
         type="text"
-        placeholder={!idUpdate ? "What needs to be done?" : ""}
+        placeholder={!idUpdate.current ? "What needs to be done?" : ""}
         value={value}
         onChange={(e) => setValue(e.target.value)}
-        onKeyDown={!idUpdate ? eventSubmit : eventUpdate}
+        onKeyDown={!idUpdate.current ? eventSubmit : eventUpdate}
         ref={inputRef}
       />
     </div>
