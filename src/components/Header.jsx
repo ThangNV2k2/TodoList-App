@@ -36,7 +36,6 @@ const Header = React.forwardRef((props, ref) => {
   const eventUpdate = (e) => {
     if (e.code === "Enter") {
       if (value.trim() !== "") {
-        debugger
         editTodoItem(idUpdate.current, value);
         setValue("");
         idUpdate.current = null;

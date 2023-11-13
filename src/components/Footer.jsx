@@ -20,7 +20,7 @@ function Footer(props) {
 
   return (
     <div className={`Footer ${theme.theme}`}>
-      {todoList.size > 0 && (
+      {todoList.length > 0 && (
         <div className="Footer--left">
           <p>{cntTodo} items left</p>
           <div className="btns">
@@ -40,7 +40,7 @@ function Footer(props) {
         </div>
       )}
       <div className="Footer--right">
-        {todoList.size - cntTodo > 0 && (
+        {todoList.length - cntTodo > 0 && (
           <button className="clearBtn" onClick={deleteAllTodoItem}>
             Clear completed
           </button>

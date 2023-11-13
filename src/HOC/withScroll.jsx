@@ -4,7 +4,7 @@ export const withScroll = (WrappedComponent) => {
   let isGetting = false;
   const ref = React.createRef();
   return (props) => {
-    const { numberTodoInit, todoList, endScrollPosition } = props;
+    const { numberTodoInit = 4, todoList, endScrollPosition= 10 } = props;
     const [numberTodo, setNumberTodo] = useState(numberTodoInit);
     const [loadingState, setLoadingState] = useState(false);
     useEffect(() => {
@@ -15,17 +15,13 @@ export const withScroll = (WrappedComponent) => {
           !isGetting
         ) {
           isGetting = true;
-          if (numberTodo >= todoList.size) {
+          if (numberTodo >= todoList.length) {
             return;
           }
           setLoadingState(true);
           setTimeout(() => {
             isGetting = false;
-            if (numberTodo >= todoList.size) {
-              setNumberTodo(todoList.size);
-            } else {
-              setNumberTodo(numberTodo + numberTodoInit);
-            }
+            setNumberTodo(numberTodo + numberTodoInit);
             setLoadingState(false);
           }, 1000);
         }
@@ -47,3 +43,5 @@ export const withScroll = (WrappedComponent) => {
     );
   };
 };
+
+

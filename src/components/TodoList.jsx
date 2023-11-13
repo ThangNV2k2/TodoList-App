@@ -22,16 +22,16 @@ const TodoList = React.forwardRef((props, ref) => {
     const todoListDisplay = [];
     for (let i = 0; i < numberTodo; i++) {
       if (
-        todoList.get(i) &&
-        todoList.get(i).id &&
+        todoList[i] &&
+        todoList[i].id &&
         (myOption === options.All ||
-          (myOption === options.Active && !todoList.get(i).isCompleted) ||
-          (myOption === options.Completed && todoList.get(i).isCompleted))
+          (myOption === options.Active && !todoList[i].isCompleted) ||
+          (myOption === options.Completed && todoList[i].isCompleted))
       ) {
         todoListDisplay.push(
           <Todo
-            key={todoList.get(i).id}
-            todo={todoList.get(i)}
+            key={todoList[i].id}
+            todo={todoList[i]}
             editTodoItem={editTodoItem}
             changeIsCompleted={changeIsCompleted}
             deleteTodoItem={deleteTodoItem}
@@ -60,7 +60,6 @@ const TodoList = React.forwardRef((props, ref) => {
 });
 
 TodoList.propTypes = {
-  todoList: propsTypes.object,
   myOption: propsTypes.string,
   editTodoItem: propsTypes.func,
   changeIsCompleted: propsTypes.func,

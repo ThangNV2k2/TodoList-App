@@ -5,7 +5,9 @@ import Footer from "./components/Footer";
 import Theme from "./components/Theme";
 import { ThemeContext } from "./components/ThemeProvider";
 import { v4 as uuidv4 } from "uuid";
-import { List } from "immutable";
+import { produce } from "immer";
+// import { List } from "immutable";
+// import { set } from "immutable";
 import "./App.css";
 
 export const options = {
@@ -15,33 +17,62 @@ export const options = {
 };
 
 function App() {
-  const [todoList, setTodoList] = useState(List([
+  const [todoList, setTodoList] = useState([
     { id: uuidv4(), content: "Học React", isCompleted: false },
     { id: uuidv4(), content: "Học Node", isCompleted: false },
-  ]));
+  ]);
   const [myOption, setMyOption] = useState(options.All);
   const headerRef = useRef();
   const numberTodoInit = useRef(4);
-  const addTodo = (todo) => setTodoList((prev) => prev.unshift(todo));
+  const addTodo = (todo) => {
+    setTodoList(
+      produce(todoList, (draft) => {
+        draft.unshift(todo);
+      })
+    );
+  };
 
-  const deleteTodoItem = (id) => setTodoList(todoList.filter((todo) => todo.id !== id));
+  const deleteTodoItem = (id) => {
+    setTodoList(
+      produce(todoList, (draft) => {
+        const index = draft.findIndex((todo) => todo.id === id);
+        if (index !== -1) {
+          draft.splice(index, 1);
+        }
+      })
+    );
+  };
 
   const editTodoItem = (id, content) => {
-    const todoIndex = todoList.findIndex((todo) => todo.id === id);
-    if (todoIndex !== -1) {
-      const todoUpdate = { ...todoList.get(todoIndex), content };
-      setTodoList(todoList.set(todoIndex, todoUpdate));
-    }
+    setTodoList(
+      produce(todoList, (draft) => {
+        const index = draft.findIndex((todo) => todo.id === id);
+        if (index !== -1) {
+          draft[index].content = content;
+        }
+      })
+    );
   };
 
   const changeIsCompleted = (id) => {
-    const newList = todoList.map((todo) =>
-      todo.id === id ? { ...todo, isCompleted: !todo.isCompleted } : todo
+    setTodoList(
+      produce(todoList, (draft) => {
+        const index = draft.findIndex((todo) => todo.id === id);
+        if (index !== -1) {
+          draft[index].isCompleted = !draft[index].isCompleted;
+        }
+      })
     );
-    setTodoList(newList);
   };
 
-  const deleteAllTodoItem = () => setTodoList(todoList.filter((todo) => !todo.isCompleted));
+  const deleteAllTodoItem = () => {
+    setTodoList(
+      produce(
+        todoList,
+        (draft) => (draft = draft.filter((todo) => !todo.isCompleted))
+      )
+    );
+  };
 
   const changeOption = (option) => setMyOption(option);
 
