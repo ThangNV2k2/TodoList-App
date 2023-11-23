@@ -74,8 +74,6 @@ function App() {
     );
   };
 
-  const changeOption = (option) => setMyOption(option);
-
   const requestUpdate = (id, content) =>
     headerRef.current.changeUpdate(id, content);
 
@@ -106,7 +104,7 @@ function App() {
         <Footer
           todoList={todoList}
           myOption={myOption}
-          changeOption={changeOption}
+          setMyOption={setMyOption}
           deleteAllTodoItem={deleteAllTodoItem}
         />
       </div>

@@ -16,12 +16,13 @@ export const withScroll = (WrappedComponent) => {
         ) {
           isGetting = true;
           if (numberTodo >= todoList.length) {
+            isGetting = false;
             return;
           }
           setLoadingState(true);
           setTimeout(() => {
             isGetting = false;
-            setNumberTodo(numberTodo + numberTodoInit);
+            setNumberTodo(prev => prev + numberTodoInit);
             setLoadingState(false);
           }, 1000);
         }
